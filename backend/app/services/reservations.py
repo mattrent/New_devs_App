@@ -3,11 +3,11 @@ from zoneinfo import ZoneInfo
 from decimal import Decimal
 from typing import Dict, Any, List
 
-async def calculate_monthly_revenue(property_id: str, month: int, year: int, tzinfo: ZoneInfo, db_session=None) -> Decimal:
+async def calculate_monthly_revenue(property_id: str, month: int, year: int, tzinfostr: str, db_session=None) -> Decimal:
     """
     Calculates revenue for a specific month.
     """
-
+    tzinfo = ZoneInfo(tzinfostr)
     start_date_tz = datetime(year, month, 1, tzinfo)
     if month < 12:
         end_date_tz = datetime(year, month + 1, 1, tzinfo)
