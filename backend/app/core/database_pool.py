@@ -1,6 +1,6 @@
 import asyncio
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.pool import NullPool
 import logging
 from ..config import settings
 
@@ -15,15 +15,11 @@ class DatabasePool:
         """Initialize database connection pool"""
         try:
             # Create async engine with connection pooling
-            database_url = settings.database_url
-            
+            database_url = "postgresql+asyncpg://postgres:postgres@db:5432/propertyflow" 
+
             self.engine = create_async_engine(
                 database_url,
-                poolclass=QueuePool,
-                pool_size=20,  # Number of connections to maintain
-                max_overflow=30,  # Additional connections when needed
-                pool_pre_ping=True,  # Validate connections
-                pool_recycle=3600,  # Recycle connections every hour
+                poolclass=NullPool,
                 echo=False  # Set to True for SQL debugging
             )
             
